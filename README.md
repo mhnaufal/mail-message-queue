@@ -23,6 +23,12 @@ Here, I try to:
 Sender send a message and put it inside queue, then the receiver will receive the message by taking out the message from the queue.
 If there are multiple receivers, the message will be distributed equally (Round-Robin dispatching)
 
+**Routing key** = The label (routing key) describes the payload and the RabbitMQ messaging system uses this to determine **who will receive a copy of your message**
+
+The routing key is a message attribute the exchange looks at when deciding how to route the message to queues (depending on exchange type).
+
+A message goes to the queue(s) with the binding key that exactly matches the routing key of the message.
+
 ### Worker Queue
 
 Prevent from resource-intensive task by having a queue to schedule the task for later.
@@ -37,3 +43,9 @@ Use the `ch.Qos` to define the **prefatch count** a.k.a how many jobs the worker
 
 When the RabbitMQ server stops, it will forget all of the queues and messages. To prevent this, we need to set the durability of the queue
 and the message.
+
+### PubSub Model
+
+In PubSub model, instead of just one receiver, there will be multiple receiver/subscriber. The publisher/sender will not going to push the message to the queue anymore, instead it will be send the message to an **Exchange**. The Exchange responsible for decided where to push the message to which queue. Some type of exchanger, _direct_, _topic_, _headers_, _fanout_.
+
+- **Fanout** = broadcast the message to all queues
